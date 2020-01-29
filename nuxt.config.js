@@ -14,7 +14,14 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Material+Icons' },
+      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css' }
+    ],
+    script: [
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.6.0/polyfill.min.js' },
+      { src: 'https://cdnjs.cloudflare.com/ajax/libs/event-source-polyfill/0.0.9/eventsource.min.js' },
+      { src: 'https://polyfill.io/v3/polyfill.min.js?features=default' }
     ]
   },
   /*
@@ -30,6 +37,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    // test
   ],
   /*
   ** Nuxt.js dev-modules
@@ -41,7 +49,15 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/apollo',
   ],
+  apollo: { includeNodeModules: true,  
+    clientConfigs: {       
+        default: {         
+        httpEndpoint: 'http://localhost:9100/graphql',   
+      }     
+    }
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
@@ -72,5 +88,8 @@ export default {
     */
     extend (config, ctx) {
     }
-  }
+  },
+  serverMiddleware: [
+    '~/server/server'
+  ]
 }

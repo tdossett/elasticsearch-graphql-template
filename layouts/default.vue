@@ -58,7 +58,7 @@
       </v-btn>
     </v-app-bar>
     <v-content>
-      <v-container>
+      <v-container fluid>
         <nuxt />
       </v-container>
     </v-content>
@@ -110,7 +110,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Blacksopedia'
     }
   }
 }

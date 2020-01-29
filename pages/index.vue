@@ -1,6 +1,5 @@
 <template>
-  <v-layout
-    column
+    <v-layout
     justify-center
     align-center
   >
@@ -9,84 +8,216 @@
       sm8
       md6
     >
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+        <v-form>
+            <v-container>   
+                <v-row>
+                    <v-col cols="12">
+                    <v-text-field
+                        v-model="search"
+                        :prepend-icon="icon"
+                        clear-icon="mdi-close-circle"
+                        clearable
+                        label="Search"
+                        type="text"
+                        @click:append-outer="searchData"
+                        @click:prepend="changeIcon"
+                        @click:clear="clearMessage"
+                        hint="For example, Black Business"
+                        @input="searchData"
+                    ></v-text-field>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-form>
+        <v-divider></v-divider>
+        <v-container>
+            <v-row dense>
+                <v-col
+                v-for="(entry, i) in vueelastic"
+                :key="i"
+                cols="12"
+                >
+                <v-card
+                    :color=color
+                    dark
+                    class="mx-auto"
+                >
+                    <div class="d-flex flex-no-wrap justify-space-between">
+                        <div>
+                            <v-list-item three-line>
+                                <v-list-item-content>
+                                    <div class="overline mb-4">OVERLINE</div>
+                                    <v-list-item-title class="title mb-1" v-text="entry.cast_name"></v-list-item-title>
+                                    <v-list-item-subtitle v-text="entry.og_name"></v-list-item-subtitle>
+                                </v-list-item-content>
+
+                               <!--  <v-list-item-avatar
+                                    tile
+                                    size="125"
+                                    class="ma-3"
+                                >
+                                    <v-img :src="entry.url"></v-img>
+                                </v-list-item-avatar> -->
+                            </v-list-item>
+                            <v-card-subtitle>TESTING</v-card-subtitle>
+                        </div>
+                        <v-spacer></v-spacer>
+                        <v-avatar
+                            class="ma-3 align-end"
+                            size="125"
+                            tile
+                        >
+                            <v-img 
+                                :src="entry.url"
+                            >
+                            </v-img>
+                        </v-avatar>
+                    </div>
+                </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import gql from 'graphql-tag';
+
+const GET_ALL_VUEELASTIC = gql`
+  {
+    vueelastics {
+      cast_name
+      og_name
+      url
+    }
+  }
+`;
+
+const GET_VUEELASTIC = gql`
+  query vueelastic($queryString: String) {
+    vueelastic (queryString: $queryString) {
+      cast_name
+      og_name
+      url
+    }
+  }
+`;
 
 export default {
-  components: {
-    Logo,
-    VuetifyLogo
+    apollo: {
+      vueelastics: {
+        query: GET_ALL_VUEELASTIC,
+        fetchPolicy: 'cache-and-network'
+      },
+      vueelastic: {
+        query: GET_VUEELASTIC,
+        variables() {
+          return {
+            queryString: this.queryString,
+          };
+        },
+        fetchPolicy: 'cache-and-network'
+      }
+    },
+    data: () => ({
+        queryString: '',
+        test: '',
+        vueelastic_data: [],
+        entries: [],
+        isLoading: false,
+        search: '',
+        color: '#000000',
+        password: 'Password',
+        show: false,
+        marker: true,
+        iconIndex: 0,
+        icons: [
+            'mdi-cloud-search-outline'
+        ],
+    }),
+    computed: {
+      icon () {
+        return this.icons[this.iconIndex]
+      }
+    },
+    mounted () {
+        // console.log('this.$apollo.queries.vueelastic', this.$apollo.queries.vueelastic)
+        // The following code is sued to prevent pre-fetch errorsbundleRenderer.renderToStream
+        this.$apollo.queries.vueelastics.setOptions({
+        pollInterval: 10000,
+        fetchPolicy: 'cache-and-network'
+        })
+
+        this.$apollo.queries.vueelastic.setOptions({
+        pollInterval: 10000,
+        fetchPolicy: 'cache-and-network'
+        })
+
+        this.vueelastic_data = this.vueelastics
+        this.test = this.$apollo.queries.vueelastic
+    },
+    methods: {
+        toggleMarker () {
+          this.marker = !this.marker
+        },
+        clearMessage (e) {
+          // Clear apollo queryString variable 
+          this.queryString = ''
+        },
+        resetIcon () {
+          this.iconIndex = 0
+        },
+        changeIcon () {
+          this.iconIndex === this.icons.length - 1
+          ? this.iconIndex = 0
+          : this.iconIndex++
+        },
+        searchData(e) {
+            // Restful Service Call
+            // const _username = process.env.elastic_user
+            // const _password = process.env.elastic_password
+
+            // axios.get(`http://localhost:5000/search?q=`+this.search)
+            // /* axios.get(`https://878f844c9b11486389f2cb421736df26.us-east-1.aws.found.io/vue-elastic/_search?q=`+this.search, {
+            //     auth: {
+            //         username: _username,
+            //         password: _password
+            //     }
+            // }) */
+            // .then(response => {
+            //     this.entries = response.data.map(x => x._source)
+            // }) 
+            // .catch(err => {
+            //     console.log(err) // console logging error message
+            // })
+
+            // GraphQL Call :) passing search value to queryString variable for GraphQL
+            // query: vueelastic results will be in apollo object: vueelastic
+            // Reset queryString depdening on search criteria which make === ''
+            if (this.search != null) {
+              if (this.search.length > 4) {
+                this.queryString = this.search
+              }
+
+              if (this.search === '') {
+                this.queryString = ''
+              }
+            }
+
+            this.resetIcon()
+        }
+    }
   }
-}
 </script>
+
+<style scoped>
+.card-image {
+  position: absolute;
+  left: -9999px;
+  right: -9999px;
+  margin: auto;
+  height: 220px;
+  min-width: 100%;
+}
+</style>
