@@ -1,11 +1,10 @@
-# STATIC
+# NUXT.JS, VUE.JS, GRAPHQL, ELASTICSEARCH, VUE-APOLLO EXAMPLE, 
 
-**This directory is not required, you can delete it if you don't want to use it.**
+**This template was developed by Dostek,Inc.**
 
-This directory contains your static files.
-Each file inside this directory is mapped to `/`.
-Thus you'd want to delete this README.md before deploying to production.
+This template using addtional packages for functionality:
+1. @nuxt/apollo, express, graphql, apollo-server-express, graphql-tag, graphql-tools
 
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
+Example: This example demonstrates using NUXT.JS to support integration of VUE.JS components. VUE-APOLLO is used to define Queries and Mutations with graphql-tag and graphql tools. Vuetify is used to build front-end. Apollo Server is defined using apollo-server-express
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/guide/assets#static).
+More information about the usage of this directory in [the documentation]().
