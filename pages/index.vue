@@ -196,7 +196,7 @@ export default {
             // query: vueelastic results will be in apollo object: vueelastic
             // Reset queryString depdening on search criteria which make === ''
             if (this.search != null) {
-              if (this.search.length > 4) {
+              if (this.search.length >= 3) {
                 this.queryString = this.search
               }
 
