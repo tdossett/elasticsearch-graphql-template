@@ -1,6 +1,8 @@
 import { client } from './server.client'
 import { elasticSearchSchema } from './server.es.schema'
 import { vueelasticSearchSchema } from './server.es.schema'
+import { createIndex } from './server.es.createIndex'
+import { createBody } from './server.es.createBody'
 
 /**
  * TODO Ping the CLIENT to be sure
@@ -20,6 +22,7 @@ export const ElasticSearchClient = (body) => {
     return client.search({ index:'vue-elastic', body:body, type:'characters_list' })
 }
 
+// Restful API for Elasticsearch query match_all
 export const ApiElasticSearchClient = (req, res) => {
     // perform the actual search passing in the index, the search query and the type
     ElasticSearchClient({...elasticSearchSchema})
@@ -30,12 +33,25 @@ export const ApiElasticSearchClient = (req, res) => {
       });
   }
 
-  export const ApiVueElasticSearchClient = (req, res) => {
-    // perform the actual search passing in the index, the search query and the type
-    ElasticSearchClient({...vueelasticSearchSchema})
-      .then(r => res.send(r.body.hits.hits))
-      .catch(e => {
-        console.error(e);
-        res.send([]);
-      });
-  }
+// Restful API for Elasticsearch query multi_match 
+// for "vueelatic" quereis only
+export const ApiVueElasticSearchClient = (req, res) => {
+  // perform the actual search passing in the index, the search query and the type
+  ElasticSearchClient({...vueelasticSearchSchema})
+    .then(r => res.send(r.body.hits.hits))
+    .catch(e => {
+      console.error(e);
+      res.send([]);
+    });
+}
+
+// Creates new Index
+export const CreateIndex = (newIndex) => {
+  createIndex(newIndex);
+}
+
+// Creates new Body for named Index
+export const CreateBody = (index, newBody) => {
+  createBody(index, newBody);
+}
+

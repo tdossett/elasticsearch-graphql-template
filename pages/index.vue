@@ -104,6 +104,32 @@ const GET_VUEELASTIC = gql`
   }
 `;
 
+const CREATE_INDEX = gql`
+  mutation createIndex(
+    $newIndex: String!
+  ) {
+    createIndex(
+      newIndex: $newIndex
+    ) {
+      newIndex
+    }
+  }
+`;
+
+const CREATE_BODY = gql`
+  mutation createBody(
+    $index: String!
+    $newBody: newBody
+  ) {
+    createBody(
+      index: $index
+      newBody: $newBody
+    ) {
+      newBody
+    }
+  }
+`;
+
 export default {
     apollo: {
       vueelastics: {
@@ -123,6 +149,7 @@ export default {
     data: () => ({
         queryString: '',
         test: '',
+        newBody: null,
         vueelastic_data: [],
         entries: [],
         isLoading: false,
@@ -142,71 +169,123 @@ export default {
       }
     },
     mounted () {
-        // console.log('this.$apollo.queries.vueelastic', this.$apollo.queries.vueelastic)
-        // The following code is sued to prevent pre-fetch errorsbundleRenderer.renderToStream
-        this.$apollo.queries.vueelastics.setOptions({
-        pollInterval: 10000,
-        fetchPolicy: 'cache-and-network'
-        })
+      // console.log('this.$apollo.queries.vueelastic', this.$apollo.queries.vueelastic)
+      // The following code is sued to prevent pre-fetch errorsbundleRenderer.renderToStream
+      this.$apollo.queries.vueelastics.setOptions({
+      pollInterval: 10000,
+      fetchPolicy: 'cache-and-network'
+      })
 
-        this.$apollo.queries.vueelastic.setOptions({
-        pollInterval: 10000,
-        fetchPolicy: 'cache-and-network'
-        })
+      this.$apollo.queries.vueelastic.setOptions({
+      pollInterval: 10000,
+      fetchPolicy: 'cache-and-network'
+      })
 
-        this.vueelastic_data = this.vueelastics
-        this.test = this.$apollo.queries.vueelastic
+      this.vueelastic_data = this.vueelastics
+      this.test = this.$apollo.queries.vueelastic
+
+      // TESTING MUTATION'S for graphql calls to ElasticSearch
+      // this.createNewIndex('blacksopedia')
+      //
+      // TEST data for $$$$$$ createBody $$$$$$
+      // let _index = 'blacksopedia'
+      // // let _newBody = 'TESTING'
+      // this.newBody = {
+      //   business_name: 'Dostek, Inc.',
+      //   owner: 'Timothy Dossett',
+      //   address: '1952 Feltcher Ave',
+      //   city: 'South Pasadena',
+      //   state: 'California',
+      //   email: 'tdossett@dostekinc.net',
+      //   website: 'https://www.dostekinc.net',
+      //   logo: 'https://dostekinc-image.s3-us-west-1.amazonaws.com/dostekinc_logo.png'
+      // }
+      // // Create Index Body
+      // this.createNewBody(_index, this.newBody)
+
     },
     methods: {
-        toggleMarker () {
-          this.marker = !this.marker
-        },
-        clearMessage (e) {
-          // Clear apollo queryString variable 
-          this.queryString = ''
-        },
-        resetIcon () {
-          this.iconIndex = 0
-        },
-        changeIcon () {
-          this.iconIndex === this.icons.length - 1
-          ? this.iconIndex = 0
-          : this.iconIndex++
-        },
-        searchData(e) {
-            // Restful Service Call
-            // const _username = process.env.elastic_user
-            // const _password = process.env.elastic_password
+      toggleMarker () {
+        this.marker = !this.marker
+      },
+      clearMessage (e) {
+        // Clear apollo queryString variable 
+        this.queryString = ''
+      },
+      resetIcon () {
+        this.iconIndex = 0
+      },
+      changeIcon () {
+        this.iconIndex === this.icons.length - 1
+        ? this.iconIndex = 0
+        : this.iconIndex++
+      },
+      searchData(e) {
+          // Restful Service Call
+          // const _username = process.env.elastic_user
+          // const _password = process.env.elastic_password
 
-            // axios.get(`http://localhost:5000/search?q=`+this.search)
-            // /* axios.get(`https://878f844c9b11486389f2cb421736df26.us-east-1.aws.found.io/vue-elastic/_search?q=`+this.search, {
-            //     auth: {
-            //         username: _username,
-            //         password: _password
-            //     }
-            // }) */
-            // .then(response => {
-            //     this.entries = response.data.map(x => x._source)
-            // }) 
-            // .catch(err => {
-            //     console.log(err) // console logging error message
-            // })
+          // axios.get(`http://localhost:5000/search?q=`+this.search)
+          // /* axios.get(`https://878f844c9b11486389f2cb421736df26.us-east-1.aws.found.io/vue-elastic/_search?q=`+this.search, {
+          //     auth: {
+          //         username: _username,
+          //         password: _password
+          //     }
+          // }) */
+          // .then(response => {
+          //     this.entries = response.data.map(x => x._source)
+          // }) 
+          // .catch(err => {
+          //     console.log(err) // console logging error message
+          // })
 
-            // GraphQL Call :) passing search value to queryString variable for GraphQL
-            // query: vueelastic results will be in apollo object: vueelastic
-            // Reset queryString depdening on search criteria which make === ''
-            if (this.search != null) {
-              if (this.search.length >= 3) {
-                this.queryString = this.search
-              }
-
-              if (this.search === '') {
-                this.queryString = ''
-              }
+          // GraphQL Call :) passing search value to queryString variable for GraphQL
+          // query: vueelastic results will be in apollo object: vueelastic
+          // Reset queryString depdening on search criteria which make === ''
+          if (this.search != null) {
+            if (this.search.length >= 3) {
+              this.queryString = this.search
             }
 
-            this.resetIcon()
-        }
+            if (this.search === '') {
+              this.queryString = ''
+            }
+          }
+
+          this.resetIcon()
+      },
+      createNewIndex(newIndex) {
+        // e.preventDefault();
+        this.$apollo
+        .mutate({
+        mutation: CREATE_INDEX,
+          variables: {
+            newIndex: newIndex
+          }
+        })
+        .then(data => {
+        console.log(data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+      },
+      createNewBody(index, newBody) {
+        this.$apollo
+        .mutate({
+        mutation: CREATE_BODY,
+          variables: {
+            index: index,
+            newBody: newBody
+          }
+        })
+        .then(data => {
+        console.log(data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+      }
     }
   }
 </script>

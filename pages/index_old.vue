@@ -12,6 +12,7 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
+      :mobile-breakpoint='NaN'
       :headers="headers"
       :items="vueelastics"
       :items-per-page="5"

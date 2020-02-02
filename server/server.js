@@ -17,7 +17,7 @@ const server = new ApolloServer({
 });
 
 // Use the BofyParser as a middleware
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 // Set port for the app to listen on
 app.set('port', process.env.PORT || 3001);
