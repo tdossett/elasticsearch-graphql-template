@@ -1,8 +1,8 @@
 import { client } from './server.client'
 
-export const createBody = (index, newBody) => {
-    // example: index: 'Blacksopedia'
-    // body: {
+export const createDocument = (index, newDocument) => {
+    // example: index: 'blacksopedia'
+    // newDocument: {
     //     business_name: 'Dostek, Inc.',
     //     owner: 'Timothy Dossett',
     //     address: '1952 Feltcher Ave',
@@ -14,16 +14,16 @@ export const createBody = (index, newBody) => {
     //   }
 
     // console.log('index', index);
-    // console.log('newBody', newBody);
+    // console.log('newDocument', newDocument);
 
     client.index({
         index: index,
-        body: newBody
+        body: newDocument
     }, function(error, response, status) {
         if (error) {
             console.log('error', error);
         } else {
-            console.log('created a new index', response);
+            console.log('created a new document', response);
         }
     });
 

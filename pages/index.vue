@@ -116,16 +116,58 @@ const CREATE_INDEX = gql`
   }
 `;
 
-const CREATE_BODY = gql`
-  mutation createBody(
+const CREATE_DOCUMENT = gql`
+  mutation createDocument(
     $index: String!
-    $newBody: newBody
+    $newDocument: newDocument
   ) {
-    createBody(
+    createDocument(
       index: $index
-      newBody: $newBody
+      newDocument: $newDocument
     ) {
-      newBody
+      newDocument
+    }
+  }
+`;
+
+const UPDATE_DOCUMENT = gql`
+  mutation updateDocument(
+    $index: String!
+    $documentId: String!
+    $updatedDocument: updatedDocument
+  ) {
+    updateDocument(
+      index: $index
+      documentId: $documentId
+      updatedDocument: $updatedDocument
+    ) {
+      documentId
+    }
+  }
+`;
+
+const DELETE_INDEX = gql`
+  mutation deleteIndex(
+    $index: String!
+  ) {
+    deleteIndex(
+      index: $index
+    ) {
+      index
+    }
+  }
+`;
+
+const DELETE_DOCUMENT = gql`
+  mutation deleteDocument(
+    $index: String!
+    $documentId: String!
+  ) {
+    deleteDocument(
+      index: $index
+      documentId: $documentId
+    ) {
+      documentId
     }
   }
 `;
@@ -149,7 +191,8 @@ export default {
     data: () => ({
         queryString: '',
         test: '',
-        newBody: null,
+        newDocument: null,
+        updatedDocument: null,
         vueelastic_data: [],
         entries: [],
         isLoading: false,
@@ -184,13 +227,12 @@ export default {
       this.vueelastic_data = this.vueelastics
       this.test = this.$apollo.queries.vueelastic
 
-      // TESTING MUTATION'S for graphql calls to ElasticSearch
-      // this.createNewIndex('blacksopedia')
+      // $$$$$$ TESTING Blackospedia MUTATION'S for graphql calls to ElasticSearch $$$$$$
       //
-      // TEST data for $$$$$$ createBody $$$$$$
-      // let _index = 'blacksopedia'
-      // // let _newBody = 'TESTING'
-      // this.newBody = {
+      // TEST data for $$$$$$ createNewDocument Vue method $$$$$$
+      let _index = 'blacksopedia'
+      let _documentId = '93AAEXABQk-s3Mblp7iG' // change this id depending on delete / update 'document' mutations
+      // this.newDocument = {
       //   business_name: 'Dostek, Inc.',
       //   owner: 'Timothy Dossett',
       //   address: '1952 Feltcher Ave',
@@ -200,8 +242,32 @@ export default {
       //   website: 'https://www.dostekinc.net',
       //   logo: 'https://dostekinc-image.s3-us-west-1.amazonaws.com/dostekinc_logo.png'
       // }
-      // // Create Index Body
-      // this.createNewBody(_index, this.newBody)
+      //
+      // // Create Index
+      // this.createNewIndex(_index)
+      // // Create Index Document
+      // this.createNewDocument(_index, this.newDocument)
+      //
+      // TEST data for $$$$$$ updateDocument Vue method $$$$$$
+      // this.updatedDocument = {
+      //   business_name: 'Dostek, Inc.',
+      //   owner: '$$$$ Timothy Dossett $$$$',
+      //   address: '1952 Feltcher Ave',
+      //   city: 'South Pasadena',
+      //   state: 'California',
+      //   email: 'tdossett@dostekinc.net',
+      //   website: 'https://www.dostekinc.net',
+      //   logo: 'https://dostekinc-image.s3-us-west-1.amazonaws.com/dostekinc_logo.png'
+      // }
+      // //
+      // this.updateDocument(_index, _documentId, this.updatedDocument)
+
+      // // Delete Index
+      // this.deleteIndex(_index)
+      //
+      // Delete Index Document
+      // this.deleteDocument(_index, _documentId)
+      // 
 
     },
     methods: {
@@ -221,7 +287,7 @@ export default {
         : this.iconIndex++
       },
       searchData(e) {
-          // Restful Service Call
+          // $$$$ Restful Service Call in Eslatci Search Online
           // const _username = process.env.elastic_user
           // const _password = process.env.elastic_password
 
@@ -238,6 +304,7 @@ export default {
           // .catch(err => {
           //     console.log(err) // console logging error message
           // })
+
 
           // GraphQL Call :) passing search value to queryString variable for GraphQL
           // query: vueelastic results will be in apollo object: vueelastic
@@ -270,13 +337,63 @@ export default {
         console.error(error);
         });
       },
-      createNewBody(index, newBody) {
+      createNewDocument(index, newDocument) {
         this.$apollo
         .mutate({
-        mutation: CREATE_BODY,
+        mutation: CREATE_DOCUMENT,
           variables: {
             index: index,
-            newBody: newBody
+            newDocument: newDocument
+          }
+        })
+        .then(data => {
+        console.log(data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+      },
+      updateDocument(index, documentId, updatedDocument) {
+        this.$apollo
+        .mutate({
+        mutation: UPDATE_DOCUMENT,
+          variables: {
+            index: index,
+            documentId: documentId,
+            updatedDocument: updatedDocument
+          }
+        })
+        .then(data => {
+        console.log(data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+      },
+      deleteIndex(index) {
+        // e.preventDefault();
+        this.$apollo
+        .mutate({
+        mutation: DELETE_INDEX,
+          variables: {
+            index: index
+          }
+        })
+        .then(data => {
+        console.log(data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+      },
+      deleteDocument(index, documentId) {
+        // e.preventDefault();
+        this.$apollo
+        .mutate({
+        mutation: DELETE_DOCUMENT,
+          variables: {
+            index: index,
+            documentId: documentId
           }
         })
         .then(data => {

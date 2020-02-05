@@ -2,7 +2,10 @@ import { client } from './server.client'
 import { elasticSearchSchema } from './server.es.schema'
 import { vueelasticSearchSchema } from './server.es.schema'
 import { createIndex } from './server.es.createIndex'
-import { createBody } from './server.es.createBody'
+import { createDocument } from './server.es.createDocument'
+import { updateDocument } from './server.es.updateDocument'
+import { deleteIndex } from './server.es.deleteIndex'
+import { deleteDocument } from './server.es.deleteDocument'
 
 /**
  * TODO Ping the CLIENT to be sure
@@ -45,13 +48,29 @@ export const ApiVueElasticSearchClient = (req, res) => {
     });
 }
 
+// $$$$ MUTATIONS for Blacksopedia $$$$
 // Creates new Index
 export const CreateIndex = (newIndex) => {
   createIndex(newIndex);
 }
 
-// Creates new Body for named Index
-export const CreateBody = (index, newBody) => {
-  createBody(index, newBody);
+// Creates new Document for named Index
+export const CreateDocument = (index, newDocument) => {
+  createDocument(index, newDocument);
+}
+
+// Creates new Document for named Index
+export const UpdateDocument = (index, documentId, updatedDocument) => {
+  updateDocument(index, documentId, updatedDocument);
+}
+
+// Delete Index
+export const DeleteIndex = (index) => {
+  deleteIndex(index);
+}
+
+// Delete Index Document
+export const DeleteDocument = (index, documentId) => {
+  deleteDocument(index, documentId);
 }
 

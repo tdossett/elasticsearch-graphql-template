@@ -1,16 +1,17 @@
 import { client } from './server.client'
 
-client.indices.delete(
+export const deleteIndex = (index) => {
+  client.indices.delete(
     {
-      index: 'vue-elastic'
+      index: index
     },
-    (error, response, status) => {
+  (error, response, status) => {
       if(!error) {
         console.info('🚀 Deleted index');
         console.info(response);
+
       } else {
         console.info(error);
       }
-  
-    }
-  );
+    });
+}

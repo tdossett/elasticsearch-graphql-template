@@ -1,4 +1,4 @@
-import { ElasticSearchClient, CreateIndex, CreateBody } from './server.elasticsearch';
+import { ElasticSearchClient, CreateIndex, CreateDocument, UpdateDocument, DeleteIndex, DeleteDocument } from './server.elasticsearch';
 import { elasticSearchSchema } from './server.es.schema'
 import { makeExecutableSchema } from 'graphql-tools'
 
@@ -15,11 +15,24 @@ const typeDefs = `
         newIndex: String
     }
 
-    type NewBody {
-        newBody: String
+    type NewDocument {
+        newDocument: String
     }
 
-    type Blacksopedia {
+    type UpdatedDocument {
+        documentId: String
+    }
+
+    type DeleteIndex {
+        index: String
+    }
+
+    type DeleteDocument {
+        documentId: String
+    }
+
+    # this 'Complex Object' is used in 'createDocument' mutation:
+    input newDocument {
         business_name: String
         owner: String
         address: String
@@ -30,8 +43,8 @@ const typeDefs = `
         logo: String
     }
 
-    # this object is used in 'createBody' mutation:
-    input newBody {
+    # this 'Complex Object' is used in 'updateDocument' mutation:
+    input updatedDocument {
         business_name: String
         owner: String
         address: String
@@ -42,20 +55,19 @@ const typeDefs = `
         logo: String
     }
 
-    # the schema allows the following query:
+    # this schema allows the following query:
     type Query {
         vueelastics: [VueElastic]
-    }
-
-    extend type Query {
         vueelastic (queryString: String): [VueElastic]
     }
 
     # this schema allows the following mutation:
-    # NOTE: here i am using Blacksopdeia as retuned object for createBody nutation
     type Mutation {
         createIndex (newIndex: String): NewIndex
-        createBody (index: String, newBody: newBody): NewBody
+        createDocument (index: String, newDocument: newDocument): NewDocument
+        updateDocument (index: String, documentId: String, updatedDocument: updatedDocument): UpdatedDocument
+        deleteIndex (index: String): DeleteIndex
+        deleteDocument (index: String, documentId: String): DeleteDocument
     }
 `;
 
@@ -74,7 +86,7 @@ const resolvers = {
             }),
         vueelastic: (_, args) => new Promise((resolve, reject) => {
             // console.log('args', args)
-            // argument queryString requested by client (index.vue)
+            // argument 'queryString' requested by client (index.vue)
             let _query = args.queryString
 
             let vueelasticSearchSchema =  {
@@ -100,26 +112,65 @@ const resolvers = {
     },
     Mutation: {
         createIndex: (_, args) => new Promise((resolve, reject) => {
-            let _newIndex = args.newIndex; // not really ideal but
+            let _newIndex = args.newIndex;
             // console.log(_newIndex);
             
             CreateIndex(_newIndex);
             resolve(_newIndex);
 
-            return _newIndex
+            return _newIndex;
         }),
-        createBody: (_, args) => new Promise((resolve, reject) => {
+        createDocument: (_, args) => new Promise((resolve, reject) => {
             let _index = args.index;
-            let _newBody = args.newBody;
+            let _newDocument = args.newDocument;
             // console.log('_index',_index);
-            // console.log('_newBody', _newBody);
+            // console.log('_newDocument', _newDocument);
 
-            CreateBody(_index, _newBody);
+            CreateDocument(_index, _newDocument);
 
-            resolve(_newBody);
+            resolve(_newDocument);
 
             // change this to return object _newbody not string below
-            return '_newBody'
+            return '_newDocument';
+        }),
+        updateDocument: (_, args) => new Promise((resolve, reject) => {
+            let _index = args.index;
+            let _documentId = args.documentId;
+            let _updatedDocument = args.updatedDocument;
+            // console.log('_index',_index);
+            // console.log('_documentId', _documentId);
+            // console.log('_updateDocument', _updateDocument);
+
+            UpdateDocument(_index, _documentId, _updatedDocument);
+
+            resolve(_documentId);
+
+            // change this to return object _newbody not string below
+            return '_documentId';
+        }),
+        deleteIndex: (_, args) => new Promise((resolve, reject) => {
+            let _index = args.index;
+            console.log('_index',_index);
+
+            DeleteIndex(_index);
+
+            resolve(_index);
+
+            // change this to return object _newbody not string below
+            return _index;
+        }),
+        deleteDocument: (_, args) => new Promise((resolve, reject) => {
+            let _index = args.index;
+            let _documentId = args.documentId;
+            // console.log('_index',_index);
+            // console.log('_documentId',_documentId);
+
+            DeleteDocument(_index, _documentId);
+
+            resolve (_documentId);
+
+            // change this to return object _newbody not string below
+            return  _documentId;
         })
     }
 }
