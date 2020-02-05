@@ -59,7 +59,7 @@ export const CreateDocument = (index, newDocument) => {
   createDocument(index, newDocument);
 }
 
-// Creates new Document for named Index
+// Updates Document for named Index
 export const UpdateDocument = (index, documentId, updatedDocument) => {
   updateDocument(index, documentId, updatedDocument);
 }
