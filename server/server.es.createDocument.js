@@ -5,12 +5,13 @@ export const createDocument = (index, newDocument) => {
     // newDocument: {
     //     business_name: 'Dostek, Inc.',
     //     owner: 'Timothy Dossett',
-    //     address: '1952 Feltcher Ave',
+    //     address: '1952 Street Ave',
     //     city: 'South Pasadena',
     //     state: 'California',
+    //     zip: '91030'
     //     email: 'tdossett@dostekinc.net',
     //     website: 'https://www.dostekinc.net',
-    //     logo: 'https://dostekinc-image.s3-us-west-1.amazonaws.com/dostekinc_logo.png'
+    //     logo: 'https:XXXXXXXX/dostekinc_logo.png'
     //   }
 
     // console.log('index', index);
@@ -23,7 +24,9 @@ export const createDocument = (index, newDocument) => {
         if (error) {
             console.log('error', error);
         } else {
-            console.log('created a new document', response);
+            // console.log('created a new document', response);
+            console.info('🚀 Created a New Document');
+            console.info(response);
         }
     });
 

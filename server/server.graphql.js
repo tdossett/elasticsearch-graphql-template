@@ -38,6 +38,7 @@ const typeDefs = `
         address: String
         city: String
         state: String
+        zip: String
         email: String
         website: String
         logo: String
@@ -50,6 +51,7 @@ const typeDefs = `
         address: String
         city: String
         state: String
+        zip: String
         email: String
         website: String
         logo: String

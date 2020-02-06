@@ -59,7 +59,7 @@
                                     <v-img :src="entry.url"></v-img>
                                 </v-list-item-avatar> -->
                             </v-list-item>
-                            <v-card-subtitle>TESTING</v-card-subtitle>
+                            <v-card-subtitle>blacksopedia</v-card-subtitle>
                         </div>
                         <v-spacer></v-spacer>
                         <v-avatar
@@ -212,8 +212,8 @@ export default {
       }
     },
     mounted () {
-      // console.log('this.$apollo.queries.vueelastic', this.$apollo.queries.vueelastic)
       // The following code is sued to prevent pre-fetch errorsbundleRenderer.renderToStream
+      // Queries for vueelastic schemas only not blacksopedia
       this.$apollo.queries.vueelastics.setOptions({
       pollInterval: 10000,
       fetchPolicy: 'cache-and-network'
@@ -225,22 +225,22 @@ export default {
       })
 
       this.vueelastic_data = this.vueelastics
-      this.test = this.$apollo.queries.vueelastic
 
-      // $$$$$$ TESTING Blackospedia MUTATION'S for graphql calls to ElasticSearch $$$$$$
+      // $$$$$$ TESTING blackospedia MUTATION'S for graphql calls to ElasticSearch $$$$$$
       //
       // TEST data for $$$$$$ createNewDocument Vue method $$$$$$
-      let _index = 'blacksopedia'
-      let _documentId = '93AAEXABQk-s3Mblp7iG' // change this id depending on delete / update 'document' mutations
+      // let _index = 'blacksopedia'
+      // let _documentId = '-3A6FnABQk-s3MblXLhG' // change this id depending on delete / update 'document' mutations
       // this.newDocument = {
       //   business_name: 'Dostek, Inc.',
       //   owner: 'Timothy Dossett',
-      //   address: '1952 Feltcher Ave',
+      //   address: '1952 Street Ave',
       //   city: 'South Pasadena',
       //   state: 'California',
+      //   zip: '91030',
       //   email: 'tdossett@dostekinc.net',
       //   website: 'https://www.dostekinc.net',
-      //   logo: 'https://dostekinc-image.s3-us-west-1.amazonaws.com/dostekinc_logo.png'
+      //   logo: 'https:XXXXXXXX/dostekinc_logo.png'
       // }
       //
       // // Create Index
@@ -248,16 +248,17 @@ export default {
       // // Create Index Document
       // this.createNewDocument(_index, this.newDocument)
       //
-      // TEST data for $$$$$$ updateDocument Vue method $$$$$$
+      // TEST data for $$$$$$ updateDocument method $$$$$$
       // this.updatedDocument = {
       //   business_name: 'Dostek, Inc.',
       //   owner: '$$$$ Timothy Dossett $$$$',
-      //   address: '1952 Feltcher Ave',
+      //   address: '9999 Street Ave',
       //   city: 'South Pasadena',
       //   state: 'California',
+      //   zip: '91030',
       //   email: 'tdossett@dostekinc.net',
       //   website: 'https://www.dostekinc.net',
-      //   logo: 'https://dostekinc-image.s3-us-west-1.amazonaws.com/dostekinc_logo.png'
+      //   logo: 'https:XXXXXXXX/dostekinc_logo.png'
       // }
       // //
       // this.updateDocument(_index, _documentId, this.updatedDocument)
@@ -265,7 +266,7 @@ export default {
       // // Delete Index
       // this.deleteIndex(_index)
       //
-      // Delete Index Document
+      // // Delete Index Document
       // this.deleteDocument(_index, _documentId)
       // 
 
@@ -306,9 +307,9 @@ export default {
           // })
 
 
-          // GraphQL Call :) passing search value to queryString variable for GraphQL
-          // query: vueelastic results will be in apollo object: vueelastic
-          // Reset queryString depdening on search criteria which make === ''
+          // GraphQL Call :) passing 'search value' to queryString variable for GraphQL
+          // query: vueelastic, results will be in apollo object: vueelastic
+          // Reset queryString depdening on search criteria
           if (this.search != null) {
             if (this.search.length >= 3) {
               this.queryString = this.search

@@ -7,12 +7,12 @@ export const updateDocument = (index, documentId, updatedDocument) => {
     // updateDocument: {
     //     business_name: 'Dostek, Inc.',
     //     owner: '$$$$ Timothy Dossett $$$$',
-    //     address: '1952 Feltcher Ave',
+    //     address: '9999 Street Ave',
     //     city: 'South Pasadena',
     //     state: 'California',
     //     email: 'tdossett@dostekinc.net',
     //     website: 'https://www.dostekinc.net',
-    //     logo: 'https://dostekinc-image.s3-us-west-1.amazonaws.com/dostekinc_logo.png'
+    //     logo: 'https:XXXXXXXX/dostekinc_logo.pn'
     //   }
 
     console.log('index', index);
@@ -39,7 +39,9 @@ export const updateDocument = (index, documentId, updatedDocument) => {
         if (error) {
             console.log('error', error);
         } else {
-            console.log('updated document', response);
+            // console.log('updated document', response);
+            console.info('🚀 Updated Document');
+            console.info(response);
         }
     });
 }
