@@ -2,6 +2,8 @@
 
 > This project demonstrates the use of Nuxt.js, Vue.js, Vuetify, Vue-Apollo, GraphQL and Elasticsearch. Nuxt.js uses @nuxtjs/apollo with additional configurations in nuxt.config.js file to establish a connection to the Apollo client for GraphQL using httpEndpoint: 'localhost:http://localhost:9100/graphql' that can be access when app is running. The Elasticsearch client is configured as Nuxt.js serverMiddleware to establish connection to httpEndpoint: 'http://localhost:9200'. Front-End (Vuetify) is accessed via http:localhost:3000.
 
+Note: package: 'apollo-server-express' is the Express and Connect integration of GraphQL Server.
+
 Demonstrated Features:
 1. GraphQL: Queries and Mutations
 2. Elasticsearch: Bulk Insert, Create Index, Create Document, Update Document, Delete Index, Delete Document.
