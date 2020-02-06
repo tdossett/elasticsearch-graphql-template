@@ -20,12 +20,13 @@ client.ping({}, { requestTimeout: 20000 }, (error, response) => {
     }
 });
 
+// Elasticsearch search API
 export const ElasticSearchClient = (body) => {
     // perform the actual search passing in the index, the search query and the type
     return client.search({ index:'vue-elastic', body:body, type:'characters_list' })
 }
 
-// Restful API for Elasticsearch query match_all
+// Restful API for Elasticsearch query 'match_all' for all indexes
 export const ApiElasticSearchClient = (req, res) => {
     // perform the actual search passing in the index, the search query and the type
     ElasticSearchClient({...elasticSearchSchema})
@@ -36,8 +37,8 @@ export const ApiElasticSearchClient = (req, res) => {
       });
   }
 
-// Restful API for Elasticsearch query multi_match 
-// for "vueelatic" quereis only
+// Restful API for Elasticsearch query 'multi_match' 
+// for index "vueelatic" queries only
 export const ApiVueElasticSearchClient = (req, res) => {
   // perform the actual search passing in the index, the search query and the type
   ElasticSearchClient({...vueelasticSearchSchema})
