@@ -26,7 +26,6 @@
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import gql from 'graphql-tag';
-// import allVueElastic from '~/apollo/queries/allVueElastic'
 
 const GET_ALL_VUEELASTIC = gql`
   {
