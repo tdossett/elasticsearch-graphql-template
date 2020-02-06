@@ -288,7 +288,7 @@ export default {
         : this.iconIndex++
       },
       searchData(e) {
-          // $$$$ Restful Service Call in Eslatci Search Online
+          // $$$$ Restful Service Call in Elasticsearch Online
           // const _username = process.env.elastic_user
           // const _password = process.env.elastic_password
 
