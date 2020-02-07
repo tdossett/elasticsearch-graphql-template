@@ -6,6 +6,7 @@ import { createDocument } from './server.es.createDocument'
 import { updateDocument } from './server.es.updateDocument'
 import { deleteIndex } from './server.es.deleteIndex'
 import { deleteDocument } from './server.es.deleteDocument'
+import { indexDocuments } from './server.es.bulk'
 
 /**
  * TODO Ping the CLIENT to be sure
@@ -73,5 +74,10 @@ export const DeleteIndex = (index) => {
 // Delete Index Document
 export const DeleteDocument = (index, documentId) => {
   deleteDocument(index, documentId);
+}
+
+// Bulk Insert Documents for name Index
+export const IndexDocuments = (index, documents) => {
+  indexDocuments(index, documents);
 }
 

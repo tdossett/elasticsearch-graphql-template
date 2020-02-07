@@ -22,7 +22,7 @@
                         @click:append-outer="searchData"
                         @click:prepend="changeIcon"
                         @click:clear="clearMessage"
-                        hint="For example, Black Business"
+                        hint="For example, Dostek"
                         @input="searchData"
                     ></v-text-field>
                     </v-col>
@@ -172,6 +172,20 @@ const DELETE_DOCUMENT = gql`
   }
 `;
 
+const INDEX_DOCUMENTS = gql`
+  mutation indexDocuments(
+    $index: String!
+    $documents: String!
+  ) {
+    indexDocuments(
+      index: $index
+      documents: $documents
+    ) {
+      index
+    }
+  }
+`;
+
 export default {
     apollo: {
       vueelastics: {
@@ -213,7 +227,7 @@ export default {
     },
     mounted () {
       // The following code is sued to prevent pre-fetch errorsbundleRenderer.renderToStream
-      // Queries for vueelastic schemas only not blacksopedia
+      // Queries for vueelastic and vueelastics schemas only not blacksopedia
       this.$apollo.queries.vueelastics.setOptions({
       pollInterval: 10000,
       fetchPolicy: 'cache-and-network'
@@ -229,7 +243,7 @@ export default {
       // $$$$$$ TESTING blackospedia MUTATION'S for graphql calls to ElasticSearch $$$$$$
       //
       // TEST data for $$$$$$ createNewDocument Vue method $$$$$$
-      // let _index = 'blacksopedia'
+      let _index = 'blacksopedia'
       // let _documentId = '-3A6FnABQk-s3MblXLhG' // change this id depending on delete / update 'document' mutations
       // this.newDocument = {
       //   business_name: 'Dostek, Inc.',
@@ -269,6 +283,10 @@ export default {
       // // Delete Index Document
       // this.deleteDocument(_index, _documentId)
       // 
+      // // Bulk Insert Documents
+      // let _documents = 'static/blacksopedia.json'
+      // this.indexDocuments(_index, _documents)
+
 
     },
     methods: {
@@ -323,7 +341,6 @@ export default {
           this.resetIcon()
       },
       createNewIndex(newIndex) {
-        // e.preventDefault();
         this.$apollo
         .mutate({
         mutation: CREATE_INDEX,
@@ -372,7 +389,6 @@ export default {
         });
       },
       deleteIndex(index) {
-        // e.preventDefault();
         this.$apollo
         .mutate({
         mutation: DELETE_INDEX,
@@ -388,13 +404,28 @@ export default {
         });
       },
       deleteDocument(index, documentId) {
-        // e.preventDefault();
         this.$apollo
         .mutate({
         mutation: DELETE_DOCUMENT,
           variables: {
             index: index,
             documentId: documentId
+          }
+        })
+        .then(data => {
+        console.log(data);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+      },
+      indexDocuments(index, documents) {
+        this.$apollo
+        .mutate({
+        mutation: INDEX_DOCUMENTS,
+          variables: {
+            index: index,
+            documents: documents
           }
         })
         .then(data => {

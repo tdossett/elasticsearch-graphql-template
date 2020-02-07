@@ -1,4 +1,4 @@
-import { ElasticSearchClient, CreateIndex, CreateDocument, UpdateDocument, DeleteIndex, DeleteDocument } from './server.elasticsearch';
+import { ElasticSearchClient, CreateIndex, CreateDocument, UpdateDocument, DeleteIndex, DeleteDocument, IndexDocuments } from './server.elasticsearch';
 import { elasticSearchSchema } from './server.es.schema'
 import { makeExecutableSchema } from 'graphql-tools'
 
@@ -29,6 +29,10 @@ const typeDefs = `
 
     type DeleteDocument {
         documentId: String
+    }
+
+    type IndexDocuments {
+        index: String
     }
 
     # this 'Complex Object' is used in 'createDocument' mutation:
@@ -70,6 +74,7 @@ const typeDefs = `
         updateDocument (index: String, documentId: String, updatedDocument: updatedDocument): UpdatedDocument
         deleteIndex (index: String): DeleteIndex
         deleteDocument (index: String, documentId: String): DeleteDocument
+        indexDocuments (index: String, documents: String): IndexDocuments
     }
 `;
 
@@ -132,7 +137,7 @@ const resolvers = {
 
             resolve(_newDocument);
 
-            // change this to return object _newbody not string below
+            // change this to return object not string below
             return '_newDocument';
         }),
         updateDocument: (_, args) => new Promise((resolve, reject) => {
@@ -147,7 +152,7 @@ const resolvers = {
 
             resolve(_documentId);
 
-            // change this to return object _newbody not string below
+            // change this to return object not string below
             return '_documentId';
         }),
         deleteIndex: (_, args) => new Promise((resolve, reject) => {
@@ -158,7 +163,7 @@ const resolvers = {
 
             resolve(_index);
 
-            // change this to return object _newbody not string below
+            // change this to return object not string below
             return _index;
         }),
         deleteDocument: (_, args) => new Promise((resolve, reject) => {
@@ -171,8 +176,21 @@ const resolvers = {
 
             resolve (_documentId);
 
-            // change this to return object _newbody not string below
+            // change this to return object not string below
             return  _documentId;
+        }),
+        indexDocuments: (_, args) => new Promise((resolve, reject) => {
+            let _index = args.index;
+            let _documents = args.documents;
+            console.log('_index',_index);
+            console.log('_documents',_documents);
+
+            IndexDocuments(_index, _documents);
+
+            resolve (_index);
+
+            // change this to return object not string below
+            return  _index;
         })
     }
 }
