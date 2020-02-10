@@ -257,8 +257,8 @@ export default {
       //   logo: 'https:XXXXXXXX/dostekinc_logo.png'
       // }
       //
-      // // Create Index
-      // this.createNewIndex(_index)
+      // Create Index
+      this.createNewIndex(_index)
       // // Create Index Document
       // this.createNewDocument(_index, this.newDocument)
       //
@@ -283,10 +283,9 @@ export default {
       // // Delete Index Document
       // this.deleteDocument(_index, _documentId)
       // 
-      // // Bulk Insert Documents
-      // let _documents = 'static/blacksopedia.json'
-      // this.indexDocuments(_index, _documents)
-
+      // Bulk Insert Documents
+      let _documents = 'static/blacksopedia.json'
+      this.indexDocuments(_index, _documents)
 
     },
     methods: {

@@ -24,7 +24,6 @@ export const createDocument = (index, newDocument) => {
         if (error) {
             console.log('error', error);
         } else {
-            // console.log('created a new document', response);
             console.info('🚀 Created a New Document');
             console.info(response);
         }

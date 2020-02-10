@@ -182,8 +182,8 @@ const resolvers = {
         indexDocuments: (_, args) => new Promise((resolve, reject) => {
             let _index = args.index;
             let _documents = args.documents;
-            console.log('_index',_index);
-            console.log('_documents',_documents);
+            // console.log('_index',_index);
+            // console.log('_documents',_documents);
 
             IndexDocuments(_index, _documents);
 
