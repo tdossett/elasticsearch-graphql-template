@@ -243,7 +243,7 @@ export default {
       // $$$$$$ TESTING blackospedia MUTATION'S for graphql calls to ElasticSearch $$$$$$
       //
       // TEST data for $$$$$$ createNewDocument Vue method $$$$$$
-      let _index = 'blacksopedia'
+      // let _index = 'blacksopedia'
       // let _documentId = '-3A6FnABQk-s3MblXLhG' // change this id depending on delete / update 'document' mutations
       // this.newDocument = {
       //   business_name: 'Dostek, Inc.',
@@ -257,8 +257,8 @@ export default {
       //   logo: 'https:XXXXXXXX/dostekinc_logo.png'
       // }
       //
-      // Create Index
-      this.createNewIndex(_index)
+      // // Create Index
+      // this.createNewIndex(_index)
       // // Create Index Document
       // this.createNewDocument(_index, this.newDocument)
       //
@@ -283,9 +283,9 @@ export default {
       // // Delete Index Document
       // this.deleteDocument(_index, _documentId)
       // 
-      // Bulk Insert Documents
-      let _documents = 'static/blacksopedia.json'
-      this.indexDocuments(_index, _documents)
+      // // Bulk Insert Documents
+      // let _documents = 'static/blacksopedia.json'
+      // this.indexDocuments(_index, _documents)
 
     },
     methods: {
