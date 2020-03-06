@@ -1,6 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
+    <v-navigation-drawer ref="nav" v-if="$store.state.sidebar && drawer"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -19,7 +19,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            <v-list-item-title v-text="item.title" class=".title"/>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -30,32 +30,49 @@
       app
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
+      <!-- <v-btn
         icon
         @click.stop="miniVariant = !miniVariant"
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
+      </v-btn -->
+      <!-- <v-btn
         icon
         @click.stop="clipped = !clipped"
       >
         <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
+      </v-btn> -->
+      <!-- <v-btn
         icon
         @click.stop="fixed = !fixed"
       >
         <v-icon>mdi-minus</v-icon>
-      </v-btn>
+      </v-btn> -->
+      <img class="mr-3" :src="require('../assets/images/flag.png')" height="25"/>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <div class="my-2">
+        <v-btn text small nuxt to="/steppers">Register</v-btn>
+      </div>
+      <div class="my-2">
+        <v-btn text small nuxt to="/login">Login</v-btn>
+      </div>
+      
+      <div class="pa-2">
+        <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+        <v-btn v-on="on"
+          icon
+          @click.stop="rightDrawer = !rightDrawer"
+        >
+          <v-badge color="info" content="4" overlap>
+            <v-icon>notifications</v-icon>
+          </v-badge>
+        </v-btn>
+        </template>
+        <span>Alerts</span>
+        </v-tooltip>
+      </div>
     </v-app-bar>
     <v-content>
       <v-container fluid>
@@ -80,10 +97,15 @@
       </v-list>
     </v-navigation-drawer>
     <v-footer
-      :fixed="fixed"
-      app
+      absolute
+      class="font-weight-medium"
     >
-      <span>&copy; 2019</span>
+      <v-col
+        class="text-center"
+        cols="12"
+      >
+        {{ new Date().getFullYear() }} — <strong>Dostek, Inc.</strong>
+      </v-col>
     </v-footer>
   </v-app>
 </template>
@@ -110,8 +132,11 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Blacksopedia'
+      title: 'BLACKSOPEDIA'
     }
+  },
+  mounted () {
+    this.$store.commit('setSideBar', true)
   }
 }
 </script>
