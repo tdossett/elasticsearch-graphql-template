@@ -96,8 +96,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-footer
-      absolute
+    <v-footer app
       class="font-weight-medium"
     >
       <v-col

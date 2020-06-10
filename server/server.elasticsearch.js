@@ -1,6 +1,7 @@
 import { client } from './server.client'
 import { elasticSearchSchema } from './server.es.schema'
 import { vueelasticSearchSchema } from './server.es.schema'
+import { blacksopediaSearchSchema } from './server.es.schema'
 import { createIndex } from './server.es.createIndex'
 import { createDocument } from './server.es.createDocument'
 import { updateDocument } from './server.es.updateDocument'
@@ -21,10 +22,16 @@ client.ping({}, { requestTimeout: 20000 }, (error, response) => {
     }
 });
 
-// Elasticsearch search API
+// Elasticsearch search API using 'vue-elastic'
 export const ElasticSearchClient = (body) => {
     // perform the actual search passing in the index, the search query and the type
     return client.search({ index:'vue-elastic', body:body, type:'characters_list' })
+}
+
+// Elasticsearch search API using 'blacksopedia'
+export const BlacksopediaSearchClient = (body) => {
+  // perform the actual search passing in the index, the search query and the type
+  return client.search({ index:'blacksopedia', body:body, type:'characters_list' })
 }
 
 // Restful API for Elasticsearch query 'match_all' for all indexes
@@ -38,11 +45,23 @@ export const ApiElasticSearchClient = (req, res) => {
       });
   }
 
-// Restful API for Elasticsearch query 'multi_match' 
+// Restful API for Elasticsearch query 'match_all' for all indexes
 // for index "vueelatic" queries only
 export const ApiVueElasticSearchClient = (req, res) => {
   // perform the actual search passing in the index, the search query and the type
   ElasticSearchClient({...vueelasticSearchSchema})
+    .then(r => res.send(r.body.hits.hits))
+    .catch(e => {
+      console.error(e);
+      res.send([]);
+    });
+}
+
+// Restful API for Elasticsearch query 'match_all' for all indexes
+// for index "blacksopedia" queries only
+export const ApiBlacksopediaSearchClient = (req, res) => {
+  // perform the actual search passing in the index, the search query and the type
+  ElasticSearchClient({...blacksopediaSearchSchema})
     .then(r => res.send(r.body.hits.hits))
     .catch(e => {
       console.error(e);

@@ -1,5 +1,5 @@
-import { ElasticSearchClient, CreateIndex, CreateDocument, UpdateDocument, DeleteIndex, DeleteDocument, IndexDocuments } from './server.elasticsearch';
-import { elasticSearchSchema } from './server.es.schema'
+import { ElasticSearchClient, BlacksopediaSearchClient, CreateIndex, CreateDocument, UpdateDocument, DeleteIndex, DeleteDocument, IndexDocuments } from './server.elasticsearch';
+import { elasticSearchSchema, blacksopediaSearchSchema } from './server.es.schema'
 import { makeExecutableSchema } from 'graphql-tools'
 
 // Construct a schema, using GraphQL schema language.
@@ -9,6 +9,13 @@ const typeDefs = `
         cast_name: String
         og_name: String
         url: String
+    }
+
+    type Blacksopedia {
+        businessName: String
+        firstName: String
+        lastName: String
+        website: String
     }
 
     type NewIndex {
@@ -37,34 +44,42 @@ const typeDefs = `
 
     # this 'Complex Object' is used in 'createDocument' mutation:
     input newDocument {
-        business_name: String
-        owner: String
+        businessName: String
+        firstname: String
+        LastName: String
         address: String
         city: String
         state: String
         zip: String
         email: String
         website: String
-        logo: String
+        image: String
+        description: String
+        phone: String
     }
 
     # this 'Complex Object' is used in 'updateDocument' mutation:
     input updatedDocument {
-        business_name: String
-        owner: String
+        businessName: String
+        firstName: String
+        LastName: String
         address: String
         city: String
         state: String
         zip: String
         email: String
         website: String
-        logo: String
+        image: String
+        description: String
+        phone: String
     }
 
     # this schema allows the following query:
     type Query {
         vueelastics: [VueElastic]
+        blacksopedias: [Blacksopedia]
         vueelastic (queryString: String): [VueElastic]
+        blacksopedia (queryString: String): [Blacksopedia]
     }
 
     # this schema allows the following mutation:
@@ -91,6 +106,15 @@ const resolvers = {
                     resolve(_source);
                 });
             }),
+        blacksopedias: () => new Promise((resolve, reject) => {
+                BlacksopediaSearchClient({...blacksopediaSearchSchema})
+                    .then(r => {
+                        let _source = r.body.hits.hits;
+                        _source.map((item, i) => _source[i] = item._source);
+    
+                        resolve(_source);
+                    });
+            }),
         vueelastic: (_, args) => new Promise((resolve, reject) => {
             // console.log('args', args)
             // argument 'queryString' requested by client (index.vue)
@@ -114,8 +138,33 @@ const resolvers = {
                     _source.map((item, i) => _source[i] = item._source);
 
                     resolve(_source);
-                });
-            })    
+            });
+        }),
+        blacksopedia: (_, args) => new Promise((resolve, reject) => {
+            // console.log('args', args)
+            // argument 'queryString' requested by client (index.vue)
+            let _query = args.queryString
+
+            let blacksopediaSearchSchema =  {
+                size: 100,
+                from: 0,
+                query: {
+                    multi_match: {
+                        query: _query,
+                        type: 'bool_prefix',
+                        fields: ['businessName', 'firstName', 'lastName', 'website']
+                    }
+                }
+            }
+            
+            BlacksopediaSearchClient({...blacksopediaSearchSchema})
+                .then(r => {
+                    let _source = r.body.hits.hits;
+                    _source.map((item, i) => _source[i] = item._source);
+
+                    resolve(_source);
+            });
+        })        
     },
     Mutation: {
         createIndex: (_, args) => new Promise((resolve, reject) => {

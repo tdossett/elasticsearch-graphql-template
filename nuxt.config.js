@@ -94,6 +94,6 @@ export default {
     }
   },
   serverMiddleware: [
-    '~/server/server'
+    { path: '/server', handler:'~/server/server' }
   ]
 }

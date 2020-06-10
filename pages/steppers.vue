@@ -69,7 +69,7 @@
                 ></v-text-field>
                 </v-col>
 
-                <v-col
+                <!-- <v-col
                 cols="12"
                 md="4"
                 >
@@ -78,6 +78,23 @@
                     label="State"
                     required
                 ></v-text-field>
+                </v-col> -->
+
+                <v-col
+                cols="6"
+                md="4"
+                >
+                  <v-select
+                    v-model="editedItem.state"
+                    :items="states"
+                    item-text="state"
+                    item-value="id"
+                    label="State"
+                    return-object
+                    single-line
+                    clearable
+                    clear-icon
+                  ></v-select>
                 </v-col>
 
                 <v-col
@@ -119,7 +136,6 @@
                 md="4"
                 >
                 <v-text-field
-                class="title"
                     v-model="editedItem.phone"
                     label="Phone"
                     required
@@ -143,15 +159,19 @@
     </v-stepper-step>
    
     <v-stepper-content step="2">
-      <v-card class="mb-5" height="200px">
+      <v-card class="mb-5" height="100%" max-width="1000">
         <v-container fluid>
+          <v-col cols="12">
           <v-textarea
-            name="input-7-1"
+            class="subtitle-1"
+            counter
+            clearable
+            clear-icon="cancel"
             filled
             label="Tells us about your company"
-            auto-grow
             v-model="editedItem.description"
           ></v-textarea>
+          </v-col>
         </v-container>
       </v-card>
         <v-btn text medium color="primary" @click="e6 = 1">Back</v-btn>
@@ -164,17 +184,13 @@
     </v-stepper-step>
 
     <v-stepper-content step="3">
-      <v-card class="mb-5" height="200px">
-        <v-subheader>Images must be 35/35 pixels in size</v-subheader>
+      <v-card class="mb-5" height="200px" max-width="500">
+        <v-subheader>Select your logo from a local file</v-subheader>
 
           <!-- <v-file-input v-model="editedItem.image" accept="image/*" show-size counter label="File input"></v-file-input> -->
-          <div v-if="!image">
-            <v-card-title class="title">Select your logo</v-card-title>
+          <div v-if="!editedItem.image">
             <v-file-input 
-              v-model="image" 
-              accept="image/*" 
-              show-size 
-              counter 
+              multiple     
               label="File input" 
               @change="onFileChange">
             </v-file-input>
@@ -182,18 +198,15 @@
         <div v-else>
             <v-card>
                 <v-card-text>
-                <v-img :src="uploadedImage"></v-img>
+                  <v-img :src="editedItem.image" contain max-height="100px" max-width="150px"></v-img>
                 </v-card-text>
                 <v-spacer></v-spacer>
-                <v-btn @click="removeImage">Remove image</v-btn>
-            </v-card>
+                <v-btn class="ml-10" text x-small @click="removeImage">Remove image</v-btn>
+             </v-card>
         </div>
-
-
-  
       </v-card>
-        <v-btn text medium color="primary" @click="e6 = 2">Back</v-btn>
-        <v-btn text medium color="primary" @click="e6 = 4">Continue</v-btn>
+      <v-btn text medium color="primary" @click="e6 = 2">Back</v-btn>
+      <v-btn text medium color="primary" @click="e6 = 4">Continue</v-btn>
     </v-stepper-content>
 
     <v-stepper-step step="4">
@@ -201,14 +214,82 @@
       <small>Review and submit</small>
     </v-stepper-step>
     <v-stepper-content step="4">
-      <v-card class="mb-5" height="200px"></v-card>
-        <v-btn text medium color="primary" @click="e6 = 3">Back</v-btn>
-        <v-btn text medium color="primary" @click="e6 = 1">Submit</v-btn>
+      <v-card class="mb-5" height="200px" width="500">
+         <!-- <div class="d-flex flex-no-wrap">
+              <div class="">
+                <v-card-title
+                  class="title"
+                  v-text="editedItem.businessName"
+                ></v-card-title>
+
+                <v-card-subtitle v-text="fullName"></v-card-subtitle>
+              </div>
+              <div class="pr-1">
+              <v-avatar
+              class="ma-3 align-end"
+                height="150"
+                size="250"
+                tile
+              >
+                <v-img contain max-height="100px" :src="editedItem.image"></v-img>
+              </v-avatar>
+              </div>
+          </div> -->
+
+           <div class="d-flex flex-no-wrap justify-space-between">
+                        <div>
+                            <v-list-item three-line>
+                                <v-list-item-content>
+                                    <div class="overline mb-4">OVERLINE</div>
+                                    <v-list-item-title class="title mb-1" v-text="editedItem.businessName"></v-list-item-title>
+                                    <v-list-item-subtitle v-text="fullName"></v-list-item-subtitle>
+                                </v-list-item-content>
+
+                               <!--  <v-list-item-avatar
+                                    tile
+                                    size="125"
+                                    class="ma-3"
+                                >
+                                    <v-img :src="entry.url"></v-img>
+                                </v-list-item-avatar> -->
+                            </v-list-item>
+                            <v-card-subtitle>blacksopedia</v-card-subtitle>
+                        </div>
+                        <v-spacer></v-spacer>
+                        <v-avatar
+                            class="ma-3 align-end"
+                            size="125"
+                            tile
+                        >
+                            <v-img
+                                :src="editedItem.image"
+                            >
+                            </v-img>
+                        </v-avatar>
+                    </div>
+      </v-card>
+      
+      <v-btn text medium color="primary" @click="e6 = 3">Back</v-btn>
+      <v-btn text medium color="primary" @click.native="submit">Submit</v-btn>
     </v-stepper-content>
   </v-stepper>
 </template>
 
 <script>
+  import states from "../static/states.json"
+  import gql from 'graphql-tag';
+
+  const GET_ALL_BLACKSOPEDIA = gql`
+  {
+    blackospedia {
+      businessName
+      firstName
+      lastName
+      website
+    }
+  }
+`;
+
   export default {
     data () {
       return {
@@ -216,21 +297,22 @@
         lazy: false,
         valid: false,
         image: '',
+        index: 'blacksopedia',
         businessNameRules: [
             v => !!v || 'Business Name is required',
-            v => v.length <= 10 || 'Name must be less than 10 characters',
+            v => v.length <= 50 || 'Name must be less than 50 characters',
         ],
         firstNameRules: [
             v => !!v || 'First Name is required',
-            v => v.length <= 25 || 'Name must be less than 25 characters',
+            v => v.length <= 50 || 'Name must be less than 50 characters',
         ],
         lastNameRules: [
             v => !!v || 'Last Name is required',
-            v => v.length <= 25 || 'Name must be less than 25 characters',
+            v => v.length <= 50 || 'Name must be less than 50 characters',
         ],
         addressRules: [
             v => !!v || 'Address is required',
-            v => v.length <= 25 || 'Name must be less than 25 characters',
+            v => v.length <= 50 || 'Address must be less than 50 characters',
         ],
         cityRules: [
             v => !!v || 'City is required',
@@ -243,7 +325,7 @@
         ],
         emailRules: [
             v => !!v || 'E-mail is required',
-            v => /.+@.+/.test(v) || 'E-mail must be valid',
+            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         ],
         websiteRules: [
             v => !!v || 'Website is required',
@@ -255,13 +337,13 @@
           lastName: '',
           address: '',
           city: '',
-          state: '',
+          state: null,
           zip: null,
           email: '',
           website: '',
           phone: '',
           description: '',
-          image: null
+          image: ''
         },
         defaultItem: {
           id: '',
@@ -270,14 +352,26 @@
           lastName: '',
           address: '',
           city: '',
-          state: '',
+          state: null,
           zip: null,
           email: '',
           website: '',
           phone: '',
           description: '',
-          image: null
-        }
+          image: ''
+        },
+        name: ''
+      }
+    },
+    computed: {
+      states () {
+        return states.map((item) => {
+          return item;
+        })
+      },
+      fullName () {
+       this.name = this.editedItem.firstName.concat(' ' + this.editedItem.lastName)
+       return this.name
       }
     },
     methods: {
@@ -293,18 +387,45 @@
             this.createImage(files[0])
         },
         createImage(file) {
-            var image = new Image()
+            console.log('here')
+            // var image = new Image()
             var reader = new FileReader()
             var vm = this
 
             reader.onload = (e) => {
-                vm.image = e.target.result
+                vm.editedItem.image = e.target.result
             };
             reader.readAsDataURL(file)
         },
         removeImage: function (e) {
-            this.image = ''
-        }
+            this.editedItem.image = ''
+        },
+        submit () {
+          if (this.$refs.form.validate()) {
+          let item = {}
+          // Add Task Card
+          Object.assign(item, this.editedItem)
+          // this.createNewDocument(this.index, item)
+          console.log('submit: item', item)
+      }
+          
+        },
+        createNewDocument(index, newDocument) {
+          this.$apollo
+          .mutate({
+          mutation: CREATE_DOCUMENT,
+            variables: {
+              index: index,
+              newDocument: newDocument
+            }
+          })
+          .then(data => {
+          console.log(data);
+          })
+          .catch(error => {
+          console.error(error);
+        });
+      }
     }
   }
 </script>

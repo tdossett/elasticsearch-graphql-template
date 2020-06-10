@@ -31,7 +31,7 @@
         </v-form>
         <v-divider></v-divider>
         <v-container>
-            <v-row dense>
+            <v-row dense mb-5>
                 <v-col
                 v-for="(entry, i) in vueelastic"
                 :key="i"
@@ -68,7 +68,7 @@
                             tile
                         >
                             <v-img 
-                                :src="entry.url"
+                              :src="entry.url"
                             >
                             </v-img>
                         </v-avatar>
@@ -77,6 +77,7 @@
                 </v-col>
             </v-row>
         </v-container>
+        <v-divider></v-divider>
     </v-flex>
   </v-layout>
 </template>
@@ -94,12 +95,34 @@ const GET_ALL_VUEELASTIC = gql`
   }
 `;
 
+const GET_ALL_BLACKSOPEDIA = gql`
+  {
+    blacksopedias {
+      businessName
+      firstName
+      lastName
+      website
+    }
+  }
+`;
+
 const GET_VUEELASTIC = gql`
   query vueelastic($queryString: String) {
     vueelastic (queryString: $queryString) {
       cast_name
       og_name
       url
+    }
+  }
+`;
+
+const GET_BLACKSOPEDIA = gql`
+  query blacksopedia($queryString: String) {
+    blacksopedia (queryString: $queryString) {
+      businessName
+      firstName
+      lastName
+      website
     }
   }
 `;
@@ -192,8 +215,21 @@ export default {
         query: GET_ALL_VUEELASTIC,
         fetchPolicy: 'cache-and-network'
       },
+      blacksopedias: {
+        query: GET_ALL_BLACKSOPEDIA,
+        fetchPolicy: 'cache-and-network'
+      },
       vueelastic: {
         query: GET_VUEELASTIC,
+        variables() {
+          return {
+            queryString: this.queryString,
+          };
+        },
+        fetchPolicy: 'cache-and-network'
+      },
+      blacksopedia: {
+        query: GET_BLACKSOPEDIA,
         variables() {
           return {
             queryString: this.queryString,
@@ -240,21 +276,37 @@ export default {
 
       this.vueelastic_data = this.vueelastics
 
+
+      // Blacksopedia
+
+      this.$apollo.queries.blacksopedias.setOptions({
+      pollInterval: 10000,
+      fetchPolicy: 'cache-and-network'
+      })
+
+      this.$apollo.queries.blacksopedia.setOptions({
+      pollInterval: 10000,
+      fetchPolicy: 'cache-and-network'
+      })
+
       // $$$$$$ TESTING blackospedia MUTATION'S for graphql calls to ElasticSearch $$$$$$
       //
       // TEST data for $$$$$$ createNewDocument Vue method $$$$$$
       // let _index = 'blacksopedia'
       // let _documentId = '-3A6FnABQk-s3MblXLhG' // change this id depending on delete / update 'document' mutations
       // this.newDocument = {
-      //   business_name: 'Dostek, Inc.',
-      //   owner: 'Timothy Dossett',
+      //   businessName: 'Dostek, Inc.',
+      //   firstName: 'Timothy',
+      //   lastName: 'Dossett',
       //   address: '1952 Street Ave',
       //   city: 'South Pasadena',
       //   state: 'California',
       //   zip: '91030',
       //   email: 'tdossett@dostekinc.net',
       //   website: 'https://www.dostekinc.net',
-      //   logo: 'https:XXXXXXXX/dostekinc_logo.png'
+      //   image: 'https:XXXXXXXX/dostekinc_logo.png',
+      //   description: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+      //   phone: '626-379-9999'
       // }
       //
       // // Create Index
@@ -264,7 +316,9 @@ export default {
       //
       // TEST data for $$$$$$ updateDocument method $$$$$$
       // this.updatedDocument = {
-      //   business_name: 'Dostek, Inc.',
+      //   businessName: 'Dostek, Inc.',
+      //   firstName: 'Timothy',
+      //   lastName: 'Dossett',
       //   owner: '$$$$ Timothy Dossett $$$$',
       //   address: '9999 Street Ave',
       //   city: 'South Pasadena',
@@ -272,7 +326,9 @@ export default {
       //   zip: '91030',
       //   email: 'tdossett@dostekinc.net',
       //   website: 'https://www.dostekinc.net',
-      //   logo: 'https:XXXXXXXX/dostekinc_logo.png'
+      //   image: 'https:XXXXXXXX/dostekinc_logo.png',
+      //   description: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+      //   phone: '626-379-9999'
       // }
       // //
       // this.updateDocument(_index, _documentId, this.updatedDocument)

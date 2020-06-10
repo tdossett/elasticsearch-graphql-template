@@ -1,0 +1,298 @@
+[
+    {
+        "state": "Alabama",
+        "abbr": "AL",
+        "id": 1
+    },
+    {
+        "state": "Alaska",
+        "abbr": "AK",
+        "id": 2
+    },
+    {
+        "state": "American Samoa",
+        "abbr": "AS",
+        "id": 3
+    },
+    {
+        "state": "Arizona",
+        "abbr": "AZ",
+        "id": 4
+    },
+    {
+        "state": "Arkansas",
+        "abbr": "AR",
+        "id": 5
+    },
+    {
+        "state": "California",
+        "abbr": "CA",
+        "id": 6
+    },
+    {
+        "state": "Colorado",
+        "abbr": "CO",
+        "id": 7
+    },
+    {
+        "state": "Connecticut",
+        "abbr": "CT",
+        "id": 8
+    },
+    {
+        "state": "Delaware",
+        "abbr": "DE",
+        "id": 9
+    },
+    {
+        "state": "District Of Columbia",
+        "abbr": "DC",
+        "id": 10
+    },
+    {
+        "state": "Federated States Of Micronesia",
+        "abbr": "FM",
+        "id": 11
+    },
+    {
+        "state": "Florida",
+        "abbr": "FL",
+        "id": 12
+    },
+    {
+        "state": "Georgia",
+        "abbr": "GA",
+        "id": 13
+    },
+    {
+        "state": "Guam",
+        "abbr": "GU",
+        "id": 14
+    },
+    {
+        "state": "Hawaii",
+        "abbr": "HI",
+        "id": 15
+    },
+    {
+        "state": "Idaho",
+        "abbr": "ID",
+        "id": 16
+    },
+    {
+        "state": "Illinois",
+        "abbr": "IL",
+        "id": 17
+    },
+    {
+        "state": "Indiana",
+        "abbr": "IN",
+        "id": 18
+    },
+    {
+        "state": "Iowa",
+        "abbr": "IA",
+        "id": 19
+    },
+    {
+        "state": "Kansas",
+        "abbr": "KS",
+        "id": 20
+    },
+    {
+        "state": "Kentucky",
+        "abbr": "KY",
+        "id": 21
+    },
+    {
+        "state": "Louisiana",
+        "abbr": "LA",
+        "id": 22
+    },
+    {
+        "state": "Maine",
+        "abbr": "ME",
+        "id": 23
+    },
+    {
+        "state": "Marshall Islands",
+        "abbr": "MH",
+        "id": 24
+    },
+    {
+        "state": "Maryland",
+        "abbr": "MD",
+        "id": 25
+    },
+    {
+        "state": "Massachusetts",
+        "abbr": "MA",
+        "id": 26
+    },
+    {
+        "state": "Michigan",
+        "abbr": "MI",
+        "id": 27
+    },
+    {
+        "state": "Minnesota",
+        "abbr": "MN",
+        "id": 28
+    },
+    {
+        "state": "Mississippi",
+        "abbr": "MS",
+        "id": 29
+    },
+    {
+        "state": "Missouri",
+        "abbr": "MO",
+        "id": 30
+
+    },
+    {
+        "state": "Montana",
+        "abbr": "MT",
+        "id": 31
+    },
+    {
+        "state": "Nebraska",
+        "abbr": "NE",
+        "id": 32
+    },
+    {
+        "state": "Nevada",
+        "abbr": "NV",
+        "id": 33
+    },
+    {
+        "state": "New Hampshire",
+        "abbr": "NH",
+        "id": 34
+    },
+    {
+        "state": "New Jersey",
+        "abbr": "NJ",
+        "id": 35
+    },
+    {
+        "state": "New Mexico",
+        "abbr": "NM",
+        "id": 36
+    },
+    {
+        "state": "New York",
+        "abbr": "NY",
+        "id": 37
+    },
+    {
+        "state": "North Carolina",
+        "abbr": "NC",
+        "id": 38
+    },
+    {
+        "state": "North Dakota",
+        "abbr": "ND",
+        "id": 39
+    },
+    {
+        "state": "Northern Mariana Islands",
+        "abbr": "MP",
+        "id": 40
+    },
+    {
+        "state": "Ohio",
+        "abbr": "OH",
+        "id": 41
+    },
+    {
+        "state": "Oklahoma",
+        "abbr": "OK",
+        "id": 42
+    },
+    {
+        "state": "Oregon",
+        "abbr": "OR",
+        "id": 43
+    },
+    {
+        "state": "Palau",
+        "abbr": "PW",
+        "id": 44
+    },
+    {
+        "state": "Pennsylvania",
+        "abbr": "PA",
+        "id": 45
+    },
+    {
+        "state": "Puerto Rico",
+        "abbr": "PR",
+        "id": 46
+    },
+    {
+        "state": "Rhode Island",
+        "abbr": "RI",
+        "id": 47
+    },
+    {
+        "state": "South Carolina",
+        "abbr": "SC",
+        "id": 48
+    },
+    {
+        "state": "South Dakota",
+        "abbr": "SD",
+        "id": 49
+    },
+    {
+        "state": "Tennessee",
+        "abbr": "TN",
+        "id": 50
+    },
+    {
+        "state": "Texas",
+        "abbr": "TX",
+        "id": 51
+    },
+    {
+        "state": "Utah",
+        "abbr": "UT",
+        "id": 52
+    },
+    {
+        "state": "Vermont",
+        "abbr": "VT",
+        "id": 53
+    },
+    {
+        "state": "Virgin Islands",
+        "abbr": "VI",
+        "id": 54
+    },
+    {
+        "state": "Virginia",
+        "abbr": "VA",
+        "id": 55
+    },
+    {
+        "state": "Washington",
+        "abbr": "WA",
+        "id": 56
+    },
+    {
+        "state": "West Virginia",
+        "abbr": "WV",
+        "id": 57
+    },
+    {
+        "state": "Wisconsin",
+        "abbr": "WI",
+        "id": 58
+    },
+    {
+        "state": "Wyoming",
+        "abbr": "WY",
+        "id": 59
+    }
+]

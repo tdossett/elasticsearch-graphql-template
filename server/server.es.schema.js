@@ -13,7 +13,19 @@ export const vueelasticSearchSchema =  {
         multi_match: {
             query: '',
             type: 'bool_prefix',
-            fields: ['cast_name', 'og_name']
+            fields: ['cast_name', 'og_name', 'url']
+        }
+    }
+}
+
+export const blacksopediaSearchSchema =  {
+    size: 100,
+    from: 0,
+    query: {
+        multi_match: {
+            query: '',
+            type: 'bool_prefix',
+            fields: ['businessName', 'firstName', 'lastName', 'website']
         }
     }
 }
