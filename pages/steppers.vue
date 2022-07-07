@@ -257,12 +257,14 @@
                         </div>
                         <v-spacer></v-spacer>
                         <v-avatar
-                            class="ma-3 align-end"
-                            size="125"
+                            class="mt-1 pa-3 align-end"
+                            height="200"
+                            size="225"
                             tile
                         >
                             <v-img
-                                :src="editedItem.image"
+                              contain
+                              :src="editedItem.image"
                             >
                             </v-img>
                         </v-avatar>

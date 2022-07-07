@@ -1,0 +1,15 @@
+{
+  "alias": {
+    "@": "./server"
+  },
+  "resolveExtensions": [
+    ".js",
+    ".jsx",
+    ".ts",
+    ".tsx",
+    ".vue",
+    ".scss",
+    ".less"
+  ],
+  "entryFilePath": "\\server\\server.client.js"
+}
