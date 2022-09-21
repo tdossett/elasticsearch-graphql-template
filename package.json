@@ -32,7 +32,7 @@
     "vue-apollo": "^3.0.7",
     "vue-server-renderer": "^2.6.12",
     "vue-template-compiler": "^2.6.12",
-    "vuetify": "^2.4.9"
+    "vuetify": "^2.6.10"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.3",
